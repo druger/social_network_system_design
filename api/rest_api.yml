@@ -1,0 +1,588 @@
+openapi: 3.0.4
+info:
+  title: Social network API
+  description: This is a sample Social network for travelers based on the OpenAPI 3.0 specification
+  version: 1.0.0
+tags:
+  - name: Post
+  - name: User
+  - name: Feed
+paths:
+  /posts:
+    post:
+      tags:
+        - Post
+      summary: Add a new post
+      operationId: addPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPostRequest'
+        required: true
+      responses:
+        '200':
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad Request
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /posts/{postId}:
+    get:
+      tags:
+        - Post
+      summary: Get post by ID
+      operationId: getPostById
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Returns post details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad Request
+        '404':
+          description: Post not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    put:
+      tags:
+        - Post
+      summary: Update a post
+      operationId: updatePost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        '200':
+          description: Post updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad Request
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /popularPlaces:
+    get:
+      tags:
+        - Post
+      summary: Get popular places
+      operationId: getPopularPlaces
+      responses:
+        '200':
+          description: List of popular posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad Request
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /photos:
+    post:
+      tags:
+        - Post
+      summary: Upload images
+      operationId: uploadPhotos
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: One or more images to upload
+      responses:
+        '200':
+          description: Photo(s) uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 'https://example.com/photos/12345.jpg'
+        '400':
+          description: No file uploaded
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /posts/{postId}/likes:
+    post:
+      tags:
+        - Post
+      summary: Like a post
+      operationId: likePost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Post liked successfully
+        '404':
+          description: Post not found
+        '400':
+          description: Bad Request
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    delete:
+      tags:
+        - Post
+      summary: Remove like from post
+      operationId: unlikePost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Like removed successfully
+        '404':
+          description: Post not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /comments/{postId}:
+    post:
+      tags:
+        - Post
+      summary: Add a comment to a post
+      operationId: addCommentToPost
+      parameters:
+        - name: postId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: Comment added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Invalid comment
+        '404':
+          description: Post not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /feeds/{userId}:
+    get:
+      summary: Get user's feed
+      tags:
+        - Feed
+      operationId: getUserFeeds
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: A list of user feeds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedResponse'
+        '400':
+          description: Bad Request
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /users/{userId}:
+    get:
+      tags:
+        - User
+      summary: Get user by ID
+      operationId: getUserByID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User details returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    put:
+      tags:
+        - User
+      summary: Update user
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated successfully
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /users/{userId}/subscriptions:
+    post:
+      tags:
+        - User
+      summary: Subscribe to a user
+      operationId: subscribeToUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Subscribed successfully
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - User
+      summary: Unsubscribe from a user
+      operationId: unsubscribeFromUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Unsubscribed successfully
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+components:
+  schemas:
+    Location:
+      type: object
+      description: Geographic location with latitude and longitude
+      properties:
+        longitude:
+          type: number
+          format: double
+          example: 100.101
+          description: Longitude coordinate
+        latitude:
+          type: number
+          format: double
+          example: 200.201
+          description: Latitude coordinate
+          
+    NewPostRequest:
+      type: object
+      description: Payload for creating or updating a post
+      required:
+        - date
+        - description
+        - location
+        - photoUrls
+      properties:
+        date:
+          type: string
+          format: date-time
+          example: '2020-01-01T12:00:00Z'
+          description: Date and time when the post was created
+        description:
+          type: string
+          example: Cool place
+          description: Text describing the post
+        location:
+          $ref: '#/components/schemas/Location'
+        photoUrls:
+          type: array
+          items:
+            type: string
+          example:
+            - 'https://example.com/photo1.jpg'
+            - 'https://example.com/photo2.jpg'
+          description: List of image URLs
+          
+    Post:
+      type: object
+      description: Full representation of a post
+      allOf:
+        - $ref: '#/components/schemas/NewPostRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 100500
+              description: Unique post ID
+            likesCount:
+              type: integer
+              format: int32
+              example: 100
+              default: 0
+              description: Number of likes
+            comments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Comment'
+              description: List of comments
+              
+    User:
+      type: object
+      description: User profile information
+      required:
+        - id
+        - username
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 01971c20-850c-7cdd-a69d-8bdb72b48da8
+          description: Unique user ID
+        username:
+          type: string
+          example: user_name
+          description: Username of the user
+        subscriberIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          example:
+            - 01971c22-8189-7107-87df-66330cefbefb
+            - 01971c22-8189-7dff-adea-c4e46d226319
+          description: List of user IDs who follow this user
+        subscriptionIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          example:
+            - 01971c22-8189-7107-87df-66330cefbefb
+            - 01971c22-8189-7dff-adea-c4e46d226319
+          description: List of user IDs this user follows
+          
+    Comment:
+      title: Comment
+      type: object
+      required:
+        - userId
+        - date
+        - text
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: 01971c22-8189-7107-87df-66330cefbefb
+          description: ID of the user who left the comment
+        date:
+          type: string
+          format: date-time
+          example: '2020-01-01T12:00:00Z'
+          description: Date and time of the comment
+        text:
+          type: string
+          example: This is a comment
+          description: Content of the comment
+          
+    FeedResponse:
+      type: object
+      description: Paginated response with list of posts
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        nextPage:
+          type: integer
+          nullable: true
+          
+    Error:
+      type: object
+      description: Error response format
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example:  ERROR_CODE
+        message:
+          type: string
+          example: Error message
+          
+  requestBodies:
+    Post:
+      description: Request payload for creating or updating a post
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewPostRequest'
