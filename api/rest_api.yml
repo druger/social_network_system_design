@@ -173,7 +173,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
                 
-  /posts/{postId}/like:
+  /posts/{postId}/likes:
     post:
       tags:
         - Post
@@ -370,7 +370,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
                 
-  /users/{userId}/subscribe:
+  /users/{userId}/subscriptions:
     post:
       tags:
         - User
@@ -397,8 +397,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /users/{userId}/unsubscribe:
-    post:
+    delete:
       tags:
         - User
       summary: Unsubscribe from a user
