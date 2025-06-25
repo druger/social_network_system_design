@@ -92,33 +92,27 @@ Traffic (итого) = 1165 МБ/с ≈ 1.1 ГБ/с
 
 #### **Посты**
 ```text
-traffic_per_second = 90+120+1165 = 1375 МБ/с = 1.3 ГБ/с 
+Медиа
+traffic_per_second = 90 + 120 + 1160 = 1370 МБ/с = 1.34 ГБ/с 
 capacity = 1375 * 86400 * 365 = 40 ПБ
-iops = 9+4+116 = 129
-```
+iops = 9 + 4 + 116 = 129
 
-##### **HDD:**
-```text
-Disks_for_capacity = 40ПБ  / 0.032 ПБ(32ТБ) = 1250
-Disks_for_iops = 129 / 100 = 1.29
-Disks_for_throughput = 1375 МБ/с / 100 МБ/с = 13.75
-Disks = 1500
-```
-
-##### **SSD(SATA):**
-```text
+SSD(SATA):
 Disks_for_capacity = 40ПБ  / 0.1 ПБ(100ТБ) = 400
 Disks_for_iops = 129 / 1000 = 0.129
-Disks_for_throughput = 1375 МБ/с / 500 МБ/с = 2.75
+Disks_for_throughput = 1370 МБ/с / 500 МБ/с = 2.74
 Disks = 600
-```
 
-##### **SSD(nVME):**
-```text
-Disks_for_capacity = 40ПБ  / 0.03 ПБ(30ТБ) = 1333
-Disks_for_iops = 129 / 10000 = 0.0129
-Disks_for_throughput = 1.3 ГБ/с / 3 ГБ/с = 0.43
-Disks = 1600
+Метаинформация
+traffic_per_second = 45 + 4640  = 4685 КБ/с = 4.6 МБ/с
+capacity = 4.6 * 86400 * 365 = 138 ТБ
+iops = 9 + 4 + 116 = 129
+
+SSD(SATA):
+Disks_for_capacity = 138 ТБ  / 100ТБ = 1.38
+Disks_for_iops = 129 / 1000 = 0.129
+Disks_for_throughput = 4.6 МБ/с / 500 МБ/с = 0,0092
+Disks = 4
 ```
 
 #### **Комментарии**
@@ -126,10 +120,8 @@ Disks = 1600
 traffic_per_second = 28 КБ/с 
 capacity = 28 * 86400 * 365 = 883 ГБ = 0.88 ТБ
 iops = 58
-```
 
-##### **HDD:**
-```text
+HDD:
 Disks_for_capacity = 0.88 ТБ  / 1ТБ = 0.88
 Disks_for_iops = 58 / 100 = 0.58
 Disks_for_throughput = 0.028 МБ/с / 100 МБ/с = 0,00028
@@ -141,10 +133,8 @@ Disks = 1
 traffic_per_second = 100 байт/с = 0.0001 МБ/с
 capacity = 100 * 86400 * 365 = 3.2 ГБ 
 iops = 2
-```
 
-##### **HDD:**
-```text
+HDD:
 Disks_for_capacity = 3.2 ГБ  / 4 ГБ = 0.8
 Disks_for_iops = 2 / 100 = 0.02
 Disks_for_throughput = 0.0001 МБ/с / 100 МБ/с = 0,000001
