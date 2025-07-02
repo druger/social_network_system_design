@@ -140,3 +140,27 @@ Disks_for_iops = 2 / 100 = 0.02
 Disks_for_throughput = 0.0001 МБ/с / 100 МБ/с = 0,000001
 Disks = 1
 ```
+### **Хосты**
+
+#### **Посты**
+```text
+Медиа
+Hosts = 600 / 30 = 20
+Hosts_with_replication = 20 * 3 = 60
+
+Метаинформация
+Hosts = 4 / 2 = 2
+Hosts_with_replication = 2 * 3 = 6
+```
+
+#### **Комментарии**
+```text
+Hosts = 1 / 1 = 1
+Hosts_with_replication = 1 * 3 = 3
+```
+
+#### **Подписки**
+```text
+Hosts = 1 / 1 = 1
+Hosts_with_replication = 1 * 3 = 3
+```
