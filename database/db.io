@@ -54,3 +54,7 @@ Ref user_commnets: users.id < comments.user_id
 
 Репликация 
 master–slave, async, RF = 3
+
+Шардирование
+Таблицы posts, comments по хешу user_id
+Таблица photos по хешу post_id
