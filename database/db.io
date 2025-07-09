@@ -51,3 +51,10 @@ Ref post_likes: posts.id < likes.post_id
 Ref user_likes: users.id < likes.user_id
 
 Ref user_commnets: users.id < comments.user_id
+
+Репликация 
+master–slave, async, RF = 3
+
+Шардирование
+Таблицы posts, comments по хешу user_id
+Таблица photos по хешу post_id
