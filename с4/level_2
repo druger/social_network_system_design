@@ -1,0 +1,32 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(person, "User")
+System_Boundary(coreBoundary, "Core System") {
+Container(mobileApp, "Mobile App", "Kotlin, Swift", "Create, view, rate and comment posts. Subscribe to users")
+Container(posts, "Posts System", "Software system", "Handle store and get posts")
+Container(rates, "Rates System", "Software system", "Handle store and get likes, comments")
+Container(subscriptions, "Subscriptions System", "Software system", "Handle subscriptions")
+Container(postsDb, "Posts db", "PgSQL", "Stores posts")
+Container(postsCache, "Posts cache", "PgSQL", "Stores popular posts")
+Container(photosDb, "Photos db", "Ceph", "Stores photos")
+Container(photosCache, "Photos cache", "Ceph", "Stores photos of popular posts")
+Container(commnetsDb, "Comments db", "PgSQL", "Stores comments")
+Container(commnetsCache, "Comments cache", "PgSQL", "Stores popular comments")
+Container(likesDb, "Likes db", "PgSQL", "Stores likes")
+Container(followsDb, "Follows db", "PgSQL", "Stores subscriptions")
+}
+
+Rel(person, mobileApp, "Create, view, rate and comment posts. Subscribe to users")
+Rel(mobileApp, posts, "Create and view posts", "REST")
+Rel(mobileApp, rates, "Rate and comment posts", "REST")
+Rel(mobileApp, subscriptions, "Subscribe to users", "REST")
+Rel(posts, postsDb, "Store and get posts", "SQL")
+Rel(posts, postsCache, "Store and get popular posts", "SQL")
+Rel(posts, photosDb, "Store and get photos")
+Rel(posts, photosCache, "Store and get popular photos")
+Rel(rates, commnetsDb, "Store and get comments", "SQL")
+Rel(rates, commnetsCache, "Store and get popular comments", "SQL")
+Rel(rates, likesDb, "Store and get likes", "SQL")
+Rel(subscriptions, followsDb, "Store subscriptions", "SQL")
+@enduml
