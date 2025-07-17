@@ -35,6 +35,16 @@ System Design социальной сети для путешественни�
     * Загрузка ленты – не более 5 с
 * Доступность приложения: приложение может быть недоступно за год не более, чем 6 часов
 
+### **Design overview**
+
+**Level 1. System context diagram**
+
+<img width="253" height="347" alt="level_1" src="https://github.com/user-attachments/assets/2ef8f8c7-0b89-49be-a0fa-1af6232e73ac" />
+
+**Level 2. Core system container diagram**
+
+<img width="1477" height="857" alt="level_2" src="https://github.com/user-attachments/assets/82a41618-7b42-454e-adfe-22812ad49ff8" />
+
 ### **Оценка нагрузки**
 
 RPS, Traffic (публикация поста):
